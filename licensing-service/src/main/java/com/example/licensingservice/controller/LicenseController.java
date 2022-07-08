@@ -24,7 +24,8 @@ public class LicenseController {
 
         License license = licenseService.getLicense(licenseId, organizationId);
         license.add(
-                linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId())).withSelfRel());
+                linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId())).withSelfRel(),
+                linkTo(methodOn(LicenseController.class).createLicense(license, organizationId, null)).withRel("createLicense"));
         return ResponseEntity.ok(license);
     }
 
@@ -36,6 +37,14 @@ public class LicenseController {
         return ResponseEntity.ok(license1);
     }
 
+    @PutMapping
+    public ResponseEntity<String> updateLicense(@PathVariable("organizationId") String organizationId, @RequestBody License request) {
+        return ResponseEntity.ok(licenseService.updateLicense(request, organizationId));
+    }
 
+    @DeleteMapping(value="/{licenseId}")
+    public ResponseEntity<String> deleteLicense(@PathVariable("organizationId") String organizationId, @PathVariable("licenseId") String licenseId) {
+        return ResponseEntity.ok(licenseService.deleteLicense(licenseId, organizationId));
+    }
 
 }
