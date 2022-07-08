@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(value = "v1/organization/{organizationId}/license")
 @RequiredArgsConstructor
@@ -20,6 +23,8 @@ public class LicenseController {
                                               @PathVariable("organizationId")String organizationId){
 
         License license = licenseService.getLicense(licenseId, organizationId);
+        license.add(
+                linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId())).withSelfRel());
         return ResponseEntity.ok(license);
     }
 
