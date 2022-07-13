@@ -18,6 +18,16 @@ public class LicenseController {
 
     private final LicenseService licenseService;
 
+    @GetMapping(value = "/{licenseId}/{clientType}")
+    public License getLicenseWithClient(@PathVariable("licenseId")String licenseId,
+                                                        @PathVariable("organizationId")String organizationId,
+                                                        @PathVariable("clientType")String clientType){
+
+        License license = licenseService.getLicense(licenseId, organizationId,clientType);
+
+        return license;
+    }
+
     @GetMapping(value = "/{licenseId}")
     public ResponseEntity<License> getLicense(@PathVariable("licenseId")String licenseId,
                                               @PathVariable("organizationId")String organizationId){
@@ -30,21 +40,21 @@ public class LicenseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createLicense(@RequestBody License license,
+    public ResponseEntity<License> createLicense(@RequestBody License license,
                                                  @PathVariable("organizationId")String organizationId,
                                                  @RequestHeader(value = "Accept-Language", required = false) Locale locale){
-        String license1 = licenseService.createLicense(license, organizationId, locale);
+        License license1 = licenseService.createLicense(license, organizationId, locale);
         return ResponseEntity.ok(license1);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateLicense(@PathVariable("organizationId") String organizationId, @RequestBody License request) {
-        return ResponseEntity.ok(licenseService.updateLicense(request, organizationId));
+    public ResponseEntity<License> updateLicense(@PathVariable("organizationId") String organizationId, @RequestBody License request) {
+        return ResponseEntity.ok(licenseService.updateLicense(request));
     }
 
     @DeleteMapping(value="/{licenseId}")
     public ResponseEntity<String> deleteLicense(@PathVariable("organizationId") String organizationId, @PathVariable("licenseId") String licenseId) {
-        return ResponseEntity.ok(licenseService.deleteLicense(licenseId, organizationId));
+        return ResponseEntity.ok(licenseService.deleteLicense(licenseId));
     }
 
 }

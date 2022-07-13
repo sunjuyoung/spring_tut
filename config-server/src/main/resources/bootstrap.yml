@@ -1,18 +1,2 @@
-
-server:
-  port: 8071
-
-spring:
-  application:
-    name: config-server
-  profiles:
-    active:
-      - native
-  cloud:
-    config:
-      server:
-        native:
-          search-locations: classpath:/config
-
 encrypt:
   key: ireho3904yeorijpghdkfl7i6yuk6js
